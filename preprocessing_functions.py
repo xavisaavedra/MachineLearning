@@ -1,22 +1,22 @@
 # Version library:  0.0.1
 # =======================
 
-import pathlib
+# import pathlib
 
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import PowerTransformer
 
-import math
+# import math
 
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 import config
 import chardet
-import glob
+# import glob
 
-import joblib
+# import joblib
 
 
 # Individual pre-processing and training functions
@@ -27,7 +27,7 @@ import joblib
 # ===========================================================
 
 def load_dataset(*, file_name: str) -> pd.DataFrame:
-    """Load a persisted pipeline."""
+    # Load a persisted pipeline
     print("File".ljust(45), "Encoding")
     filename = f"{config.DATASET_DIR}/{file_name}"
 
@@ -42,7 +42,7 @@ def load_dataset(*, file_name: str) -> pd.DataFrame:
 
 def get_numerical_vars(df):
 
-        # make list of numerical variables
+    # make list of numerical variables
     num_vars = [var for var in df.columns if df[var].dtypes != 'O']
     # print('Número de variables numéricas: ', len(num_vars))
 
@@ -94,11 +94,11 @@ def interpreting_skew(df):
 
     # Interpreting Skew
     if -0.5 < skew < 0.5:
-        print(f'Un sesgo de {skew} significa que la distribución es  aprox. simétrica')
+        print(f'Un sesgo de {skew} distribución es aprox. simétrica')
     elif -0.5 < skew < -1.0 or 0.5 < skew < 1.0:
-        print(f'Un sesgo de {skew} significa que la distribución es moderadamente sesgada')
+        print(f'Un sesgo de {skew} distribución es moderadamente sesgada')
     else:
-        print (f'Un sesgo de {skew} significa que la distribución está muy sesgada')
+        print(f'Un sesgo de {skew} distribución está muy sesgada')
 
 
 def interpreting_kurtosis(df):
@@ -106,30 +106,32 @@ def interpreting_kurtosis(df):
 
 # Interpreting Kurtosis
     if -0.5 < kurtosis < 0.5:
-        print (f'Una curtosis de {kurtosis} significa que la distribución es aproximadamente normal.')
+        print(f'Una curtosis de {kurtosis} distribución es aprox. normal')
     elif kurtosis <= -0.5:
-        print (f'Una curtosis de {kurtosis} significa que la distribución es de cola ligera (negativa).')
+        print(f'Una curtosis de {kurtosis} dist. es de cola ligera (neg.)')
     elif kurtosis >= 0.5:
-        print (f'Una curtosis de {kurtosis} significa que la distribución es de cola gruesa (positiva).')
+        print(f'Una curtosis de {kurtosis} dist. es de cola gruesa (pos.)')
 
 
 def analisis_num_val(df):
     plt.figure(figsize=(20, 6))
 
-    # Creamos el primer grafico con este formato plt.subplot(filas, columnas, No de grafico)
+    """ Creamos el primer grafico con este formato
+    plt.subplot(filas, columnas, No de grafico) """
+
     plt.subplot(131)
     # Density Plot and Histogram of all arrival delays
     sns.distplot(df, hist=True, kde=True,
-        bins='auto',
-        hist_kws={'edgecolor': 'black'},
-        kde_kws={'linewidth': 4});
+                 bins='auto',
+                 hist_kws={'edgecolor': 'black'},
+                 kde_kws={'linewidth': 4})
 
     plt.subplot(132)
     sns.distplot(df, hist=False, kde=True,
-        kde_kws={'shade': True, 'linewidth': 3});
+                 kde_kws={'shade': True, 'linewidth': 3})
 
     plt.subplot(133)
-    sns.boxplot(y=df);
+    sns.boxplot(y=df)
 
 
 # Function to calculate missing values by column
@@ -153,15 +155,20 @@ def missing_values_table(df):
         '% of Total Values', ascending=False).round(1)
 
     # Print some summary information
-    print ("Your selected dataframe has " + str(df.shape[1]) + " columns.\n"
-           "There are " + str(mis_val_table_ren_columns.shape[0]) +
-           " columns that have missing values.")
+
+    line1 = "Your dataframe has " + str(df.shape[1]) + " columns."
+    line2 = "There are " + str(mis_val_table_ren_columns.shape[0])
+    line3 = " columns that have missing values."
+
+    print(line1)
+    print(line2 + line3)
 
     # Return the dataframe with missing information
     return mis_val_table_ren_columns
 
 
-""" Detectamos valores 'Outliers'. Esta funcion nos devuelve los indices en el dataframe
+""" Detectamos valores 'Outliers'. Esta funcion
+    nos devuelve los indices en el dataframe
     De los esos valores """
 
 
